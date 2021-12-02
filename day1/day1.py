@@ -16,12 +16,12 @@ with open('input.txt', 'r') as f:
         initialvalue = inputasint[0] + inputasint[1] + inputasint[2]
         count2 = 0
         tst = inputasint[0:3]
-        i = 0
-        for i in range(0, len(inputasint)-2):
-            if (initialvalue >= inputasint[i] + inputasint[i+1] + inputasint[i+2]):
+        
+        for i in range(len(inputasint)-2):
+            if (initialvalue < inputasint[i] + inputasint[i+1] + inputasint[i+2]):
                 count2 += 1
-            else:
-                initialvalue = inputasint[i] + inputasint[i+1] + inputasint[i+2]
+            initialvalue = inputasint[i] + inputasint[i+1] + inputasint[i+2]
+            
 
 print(count)
 print(count2)
