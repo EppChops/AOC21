@@ -49,9 +49,11 @@ help2 m  = head $ commonBitOccurance $ transpose m
 
 getLargest :: (Int, Int) -> [(String, String)] -> [(String, String)]
 getLargest abs   []              = []
-getLargest (0,0)    strings        = strings
-getLargest (a,b) ((s1,s2):ss)   | a > b = getLargest (help2 (keepRight (helperGetL ((s1,s2):ss) '1')))(helperGetL ((s1,s2):ss) '1')
-                                | otherwise = getLargest (help2 (keepRight (helperGetL ((s1,s2):ss) '0')))(helperGetL ((s1,s2):ss) '0')
+--getLargest (0,0)    strings        = strings
+getLargest  _       [(s1,s2)]       = [(s1,s2)]
+getLargest (a,b) ((s1,s2):ss)   
+    | a >= b = getLargest (help2 (keepRight (helperGetL ((s1,s2):ss) '1')))(helperGetL ((s1,s2):ss) '1')
+    | otherwise = getLargest (help2 (keepRight (helperGetL ((s1,s2):ss) '0')))(helperGetL ((s1,s2):ss) '0')
 
 helperGetL strings c = moveHeadLeft (filter (\(s1,s2) -> head s2 == c) strings)
 
@@ -68,7 +70,8 @@ keepRight ((s1,s2):ss)  = [s2] ++ keepRight ss
 
 
 getSmallest :: (Int, Int) -> [(String, String)] -> [(String, String)]
-getSmallest (0,0)    strings        = strings
+--getSmallest (0,0)    strings        = strings
 getSmallest _       [(s1,s2)]       = [(s1,s2)]
-getSmallest (a,b) ((s1,s2):ss)  | a < b = getSmallest (help2 (keepRight (helperGetL ((s1,s2):ss) '1')))(helperGetL ((s1,s2):ss) '1')
-                                | otherwise = getSmallest (help2 (keepRight (helperGetL ((s1,s2):ss) '0')))(helperGetL ((s1,s2):ss) '0')
+getSmallest (a,b) ((s1,s2):ss)  
+    | a < b = getSmallest (help2 (keepRight (helperGetL ((s1,s2):ss) '1')))(helperGetL ((s1,s2):ss) '1')
+    | otherwise = getSmallest (help2 (keepRight (helperGetL ((s1,s2):ss) '0')))(helperGetL ((s1,s2):ss) '0')
