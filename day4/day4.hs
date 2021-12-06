@@ -41,12 +41,12 @@ findBingo b (d:draws) | or [isSolved bingo | bingo <- b] = (head $ filter (isSol
 
 
 findLastBingo :: [Bingo] -> [Integer] -> (Bingo, Integer)
-findLastBingo b (d:draws) | and [isSolved bingo | bingo <- b] = (head $ filter (isSolved) b, d)
-                          | otherwise = findBingo ([updateBingo bingo d | bingo <- b]) draws
+findLastBingo b (d:draws) | and [isSolved bingo | bingo <- b] = (head b, d)
+                          | otherwise = findLastBingo ([updateBingo bingo d | bingo <- filter (\s -> (not (isSolved s))) b]) draws
 
-
+                          
 printAns :: (Bingo, Integer) -> Integer
-printAns (b, i) = sum [sum [getUndrawnCell c | c <- r] | r <- rows b] * 96
+printAns (b, i) = sum [sum [getUndrawnCell c | c <- r] | r <- rows b] * 20
 
 getUndrawnCell (Undrawn c)  =  c
 getUndrawnCell (Drawn c)    = 0
@@ -110,6 +110,7 @@ readAndSolveBingo = do
     print (findBingo bingo draws)
     print $ printAns $ (findBingo bingo draws)
     print $ findLastBingo bingo draws
+    print $ printAns $ (findLastBingo bingo draws)
 
 printBingo (bingo, i) = "(" ++ show bingo ++ "," ++ show i ++ ")"
 
@@ -118,9 +119,3 @@ fromJust (Just i) = i
 
 fromJ :: Maybe ([[Integer]],String) -> [[Integer]]
 fromJ (Just (b, s)) = b
-
-double :: Parser Double
-double = do
-    d <- readsP 
-    return d
-
