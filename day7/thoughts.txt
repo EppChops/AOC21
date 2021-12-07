@@ -1,0 +1,5 @@
+minPQ where all position jumps are computed. 
+Then we only need to pop until all crabs have 
+converged on a position,
+then computing that position. 
+
